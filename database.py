@@ -34,4 +34,30 @@ def insertBLOB(title, author, genre, year, publisher, txt_path, fb2_path):
             sqliteConnection.close()
             print("the sqlite connection is closed")
 
-insertBLOB("title", "bochkov", "spec", "2017", "samizdat", "files/bochkov.txt", "files/bochkov.fb2")
+# insertBLOB("title", "bochkov", "spec", "2017", "samizdat", "files/bochkov.txt", "files/bochkov.fb2")
+
+def insert_book_description(title, author, genre, year, publisher, txt_url, fb2_url):
+    try:
+        sqliteConnection = sqlite3.connect('library.db')
+        cursor = sqliteConnection.cursor()
+        cursor.execute("""CREATE TABLE IF NOT EXISTS books
+                  (title TEXT, author TEXT, genre TEXT, year TEXT,
+                   publisher TEXT, txt TEXT, fb2 TEXT)
+               """)
+        print("Connected to SQLite")
+        sqlite_insert_query = """ INSERT INTO books
+                                  (title, author, genre, year, publisher, txt, fb2) VALUES (?, ?, ?, ?, ?, ?, ?)"""
+
+        # Convert data into tuple format
+        data_tuple = (title, author, genre, year, publisher, txt_url, fb2_url)
+        cursor.execute(sqlite_insert_query, data_tuple)
+        sqliteConnection.commit()
+        print("Book info inserted successfully into a table")
+        cursor.close()
+
+    except sqlite3.Error as error:
+        print("Failed to insert blob data into sqlite table", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
+            print("the sqlite connection is closed")
