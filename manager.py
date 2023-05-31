@@ -6,9 +6,13 @@ from database import insert_book_description
 def manage():
     try:
         book_download_pages = open("books.txt").readlines()
-        counter = 1
-        pages = book_download_pages
-        for page in pages:
+        book_download_pages
+        total = len(book_download_pages)
+        left = 0
+        right = total - 1
+        # pages = book_download_pages
+        for i in range(left, right):
+            page = book_download_pages[i]
             try:
                 https_page = 'https' + page[4:-1]
                 page_data = scrap_book_download_page(https_page)
@@ -25,8 +29,8 @@ def manage():
                     page_data["txt"],
                     page_data["fb2"]
                 )
-                print(counter, "/", len(pages))
-                counter +=1
+                print(left," [", i, "] ", right)
+                print("total: ", total)
             except Exception as e:
                 print("ERROR: ", page, "\n", e)        
                 
