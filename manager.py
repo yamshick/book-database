@@ -7,7 +7,7 @@ def manage():
     try:
         book_download_pages = open("books.txt").readlines()
         counter = 1
-        pages = book_download_pages[:108]
+        pages = book_download_pages
         for page in pages:
             try:
                 https_page = 'https' + page[4:-1]
@@ -20,8 +20,8 @@ def manage():
                     page_data["title"],
                     page_data["author"],
                     page_data["genre"],
-                    "year",
-                    "publisher",
+                    page_data["year"],
+                    page_data["publisher"],
                     page_data["txt"],
                     page_data["fb2"]
                 )
