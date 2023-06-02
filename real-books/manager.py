@@ -9,11 +9,11 @@ import converter
 
 def manage():
     try:
-        genre = ''
+        genre = 'Военная документалистика'
         download_folder = 'raw-files'
         convert_folder = 'utf-8-files'
         books_info = database.select_books_info_by_genre(genre)
-        for book_info in books_info[:1]:
+        for book_info in books_info[3:4]:
             title = book_info[0]
             author = book_info[1]
             genre = book_info[2]
@@ -25,12 +25,14 @@ def manage():
             downloaded_files = os.listdir(os.getcwd() + "/" + download_folder)
             for cur_filename in downloaded_files:
                 strip_file_name, file_extension = os.path.splitext(cur_filename)
-                print('file_extension: ', file_extension)
+                # print('file_extension: ', file_extension)
                 if file_extension == '.txt':
                     file_name = cur_filename
-                    print('file_name:', file_name, file_extension, cur_filename)
+                    # print('file_name:', file_name, file_extension, cur_filename)
                     
             converter.convert_cp1251_to_utf8(download_folder, convert_folder, file_name)
+            converted_txt_path = convert_folder + '/' + file_name
+            database.insertTxtBook(genre, title, author, genre, year, publisher, converted_txt_path)
             # print (title, author, genre, year, publisher, txt_url)
             # print('\n')
             continue

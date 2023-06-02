@@ -4,6 +4,7 @@ def convertToBinaryData(filename):
     # Convert digital data to binary format
     with open(filename, 'rb') as file:
         blobData = file.read()
+        # print(blobData)
     return blobData
 
 def insertBLOB(title, author, genre, year, publisher, txt_path, fb2_path):
@@ -37,9 +38,9 @@ def insertBLOB(title, author, genre, year, publisher, txt_path, fb2_path):
 # insertBLOB("title", "bochkov", "spec", "2017", "samizdat", "bochkov-utf-8.txt", "files/bochkov.fb2")
 
 
-def insertTxtBook(title, author, genre, year, publisher, txt_path):
+def insertTxtBook(db_name, title, author, genre, year, publisher, txt_path):
     try:
-        sqliteConnection = sqlite3.connect(genre + '.db')
+        sqliteConnection = sqlite3.connect(db_name + '.db')
         cursor = sqliteConnection.cursor()
         cursor.execute("""CREATE TABLE IF NOT EXISTS books
                   (title TEXT, author TEXT, genre TEXT, year TEXT,
@@ -49,7 +50,9 @@ def insertTxtBook(title, author, genre, year, publisher, txt_path):
         sqlite_insert_blob_query = """ INSERT INTO books
                                   (title, author, genre, year, publisher, txt) VALUES (?, ?, ?, ?, ?, ?)"""
 
+        # print("txt_path", txt_path)
         txt_binary = convertToBinaryData(txt_path)
+        # print("txt_binary", txt_binary)
         # Convert data into tuple format
         data_tuple = (title, author, genre, year, publisher, txt_binary)
         cursor.execute(sqlite_insert_blob_query, data_tuple)
