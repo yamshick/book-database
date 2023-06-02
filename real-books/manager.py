@@ -4,6 +4,7 @@ from scrapper import scrap_book_download_page
 import database
 import downloader
 import converter
+import cleaner
 # from database import insert_book_description, select_books_info_by_genre
 
 
@@ -13,7 +14,7 @@ def manage():
         download_folder = 'raw-files'
         convert_folder = 'utf-8-files'
         books_info = database.select_books_info_by_genre(genre)
-        for book_info in books_info[3:4]:
+        for book_info in books_info:
             title = book_info[0]
             author = book_info[1]
             genre = book_info[2]
@@ -29,12 +30,16 @@ def manage():
                 if file_extension == '.txt':
                     file_name = cur_filename
                     # print('file_name:', file_name, file_extension, cur_filename)
-                    
-            converter.convert_cp1251_to_utf8(download_folder, convert_folder, file_name)
-            converted_txt_path = convert_folder + '/' + file_name
-            database.insertTxtBook(genre, title, author, genre, year, publisher, converted_txt_path)
-            # print (title, author, genre, year, publisher, txt_url)
-            # print('\n')
+            try:        
+                converter.convert_cp1251_to_utf8(download_folder, convert_folder, file_name)
+                converted_txt_path = convert_folder + '/' + file_name
+                database.insertTxtBook(genre, title, author, genre, year, publisher, converted_txt_path)
+                cleaner.clean_folder(download_folder)
+                cleaner.clean_folder(convert_folder)
+                # print (title, author, genre, year, publisher, txt_url)
+                # print('\n')
+            except Exception as e:
+                print(e)    
             continue
 
         return
