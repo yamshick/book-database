@@ -1,10 +1,10 @@
 import requests, zipfile, io
 
-def download(url):
+def download(url, folder):
     try:
         r = requests.get(url)
         z = zipfile.ZipFile(io.BytesIO(r.content))
-        z.extractall(url)
+        z.extractall(folder)
     except Exception as e:
-        print("download error", e)
+        print("download error", url, e)
         # print('Error', url)    

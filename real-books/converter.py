@@ -19,8 +19,9 @@
 import codecs
 
 
-def convert_cp1251_to_utf-8(file_name):
-    f = codecs.open('files/' + file_name, 'r', 'cp1251')
+def convert_cp1251_to_utf8(input_folder, output_folder, file_name):
+    print('convert_cp1251_to_utf8, file_name', file_name)
+    f = codecs.open(input_folder + '/' + file_name, 'r', 'cp1251')
     u = f.read()   # now the contents have been transformed to a Unicode string
-    out = codecs.open('utf-8-files/' + file_name, 'w', 'utf-8')
+    out = codecs.open(output_folder + '/' + file_name, 'w', 'utf-8')
     out.write(u)   # and now the contents have been output as UTF-8
