@@ -11,6 +11,7 @@ def convertToBinaryData(filename):
 def get_txt_text_string(file_path):
     with open(file_path, 'r') as file:
         data = file.read().replace('\n', '')
+        print (data)
         return data
 
 def insertBLOB(title, author, genre, year, publisher, txt_path, fb2_path):
@@ -57,11 +58,11 @@ def insertTxtBook(db_name, title, author, genre, year, publisher, txt_path):
                                   (title, author, genre, year, publisher, txt) VALUES (?, ?, ?, ?, ?, ?)"""
 
         # print("txt_path", txt_path)
-        txt_binary = convertToBinaryData(txt_path)
+        # txt_binary = convertToBinaryData(txt_path)
         txt_string = get_txt_text_string(txt_path)
         # print("txt_binary", txt_binary)
         # Convert data into tuple format
-        data_tuple = (title, author, genre, year, publisher, txt_binary)
+        data_tuple = (title, author, genre, year, publisher, txt_string)
         cursor.execute(sqlite_insert_blob_query, data_tuple)
         sqliteConnection.commit()
         print("Book txt inserted succesfully into a table")
