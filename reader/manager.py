@@ -15,9 +15,11 @@ def manage():
         print(len(data))
         for book_info in data:
             book_text = book_info[5]
+            header = book_info[0] + " " + book_info[1]
             print(len(book_text))
             book_fragments = searcher.get_book_fragments_with_substring(book_text, sub_string)
-            print("book_fragments_len:", len(book_fragments))
+            # print("book_fragments_len:", len(book_fragments))
+            print(header)
             for fragment in book_fragments:
                 print(fragment.strip(), "\n")
                 # print(len(fragment))
