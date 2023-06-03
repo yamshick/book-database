@@ -10,10 +10,10 @@ import cleaner
 
 def manage():
     try:
-        genre = 'Военная документалистика'
+        genre = 'Рассказ'
         download_folder = 'raw-files'
         convert_folder = 'utf-8-files'
-        books_info = database.select_books_info_by_genre(genre)[:10]
+        books_info = database.select_books_info_by_genre(genre)
         total = len(books_info)
         left = 0
         right = total
